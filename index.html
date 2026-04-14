@@ -27,313 +27,153 @@
     --border:   rgba(61,47,37,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Syne', sans-serif;
-    background: var(--cream);
-    color: var(--charcoal);
-    min-height: 100vh;
-  }
-  /* ─── HEADER ─── */
-  header {
-    background: var(--terra);
-    padding: 2rem 2rem 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 180px; height: 180px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-  }
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; left: 30%;
-    width: 260px; height: 260px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-  }
-  .header-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
-  .header-tag {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    color: #FAECE7;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-  }
-  header h1 {
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.15;
-    margin-bottom: 6px;
-  }
-  header p {
-    font-size: 13px;
-    color: #F5C4B3;
-    font-weight: 400;
-    max-width: 480px;
-    line-height: 1.6;
-  }
-  /* ─── MAIN ─── */
-  main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
-  /* ─── CARDS ─── */
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-  .card-header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 1rem;
-  }
-  .card-icon {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    background: var(--terra-lt);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--terra);
-    font-size: 15px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-  }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
-  /* ─── SECTION LABEL ─── */
-  .sec-lbl {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  /* ─── LANGUAGE PILLS ─── */
-  .pill-grid { display: flex; gap: 6px; flex-wrap: wrap; }
-  .pill {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    border: 1.5px solid transparent;
-    cursor: pointer;
-    transition: all 0.18s;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .pill.active {
-    background: var(--terra);
-    color: #fff;
-    border-color: var(--terra);
-  }
-  .pill:not(.active) {
-    background: var(--terra-lt);
-    color: var(--terra-dk);
-    border-color: #F0997B;
-  }
-  .pill:not(.active):hover { background: #F5C4B3; }
-  /* ─── INPUT ROW ─── */
-  .input-row { display: flex; gap: 8px; margin-top: 1rem; }
-  .str-input {
-    flex: 1;
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: 1.5px solid var(--border);
-    background: var(--sand);
-    font-size: 16px;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--charcoal);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .str-input:focus { border-color: var(--terra); }
-  .run-btn {
-    padding: 10px 22px;
-    border-radius: 10px;
-    background: var(--terra);
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .run-btn:hover { background: var(--terra-dk); }
-  .run-btn:active { transform: scale(0.97); }
-  /* ─── ERROR MSG ─── */
-  #error-msg {
-    display: none;
-    background: var(--red-lt);
-    color: var(--red);
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-top: 8px;
-    font-weight: 500;
-  }
-  /* ─── RESULT SECTION ─── */
-  #result-section { display: none; }
-  /* ─── SPLIT TAPE ─── */
-  .tape-wrap { margin: 0.75rem 0 1.25rem; }
-  .tape {
-    display: flex;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 2px solid var(--terra);
-  }
-  .tape-seg {
-    padding: 14px 8px;
-    text-align: center;
-    transition: flex 0.4s cubic-bezier(.4,0,.2,1), background 0.3s;
-    min-width: 50px;
-  }
-  .tape-x { background: var(--blue-lt); border-right: 1px solid rgba(26,92,153,0.2); }
-  .tape-y { background: var(--terra); position: relative; }
-  .tape-z { background: var(--green-lt); border-left: 1px solid rgba(45,122,79,0.2); }
-  .tape-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-  .tape-x .tape-lbl { color: var(--blue); }
-  .tape-y .tape-lbl { color: rgba(255,255,255,0.7); }
-  .tape-z .tape-lbl { color: var(--green); }
-  .tape-val {
-    font-size: 22px;
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tape-x .tape-val { color: var(--blue); }
-  .tape-y .tape-val { color: #fff; }
-  .tape-z .tape-val { color: var(--green); }
-  .tape-arrow {
-    position: absolute;
-    bottom: -12px; left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 12px solid var(--terra);
-  }
-  /* ─── RULE BADGES ─── */
-  .rules { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-  .rule-badge {
-    font-size: 11px;
-    font-family: 'JetBrains Mono', monospace;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-weight: 500;
-  }
-  .rb-ok  { background: var(--green-lt); color: var(--green); }
-  .rb-info{ background: var(--blue-lt);  color: var(--blue); }
-  /* ─── PUMP CONTROL ─── */
-  .pump-ctrl {
-    display: flex; align-items: center; gap: 14px;
-    margin: 0.5rem 0 1rem;
-  }
-  .pump-lbl { font-size: 13px; color: var(--muted); font-weight: 500; }
-  .pump-btns { display: flex; align-items: center; gap: 8px; }
-  .pbtn {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    background: var(--terra-lt);
-    border: 1.5px solid #F0997B;
-    color: var(--terra-dk);
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 600;
-    transition: background 0.15s;
-    line-height: 1;
-  }
-  .pbtn:hover { background: #F5C4B3; }
-  .pval {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--terra);
-    min-width: 32px;
-    text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  /* ─── RESULT STRING ─── */
-  .result-str {
-    background: var(--sand);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--ink);
-    margin-bottom: 10px;
-    line-height: 1.6;
-    word-break: break-all;
-  }
-  .hl-y { color: var(--terra); font-weight: 700; }
-  /* ─── VERDICT ─── */
-  .verdict {
-    border-radius: 10px;
-    padding: 12px 16px;
-    display: flex; align-items: flex-start; gap: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-    border-left: 3px solid;
-  }
-  .verdict.bad  { background: var(--red-lt);   color: #4A1313; border-color: var(--red); }
-  .verdict.good { background: var(--green-lt); color: #1A3D28; border-color: var(--green); }
-  .verdict-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-  /* ─── STATS ─── */
-  .stats { display: flex; gap: 8px; margin-top: 1rem; }
-  .stat {
-    flex: 1;
-    background: var(--sand);
-    border-radius: 10px;
-    padding: 12px 8px;
-    text-align: center;
-  }
-  .stat-val {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--terra);
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .stat-lbl { font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 3px; letter-spacing: 0.05em; text-transform: uppercase; }
-  /* ─── EXPLANATION BOX ─── */
-  .explain-box {
-    background: var(--amber-lt);
-    border-radius: 10px;
-    padding: 12px 14px;
-    border-left: 3px solid var(--amber);
-    margin-top: 0.75rem;
-  }
-  .explain-box p { font-size: 12px; color: var(--ink); line-height: 1.65; }
-  .explain-box strong { color: var(--terra-dk); }
-  /* ─── HOW IT WORKS ─── */
-  .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 0.5rem; }
-  .how-item { background: var(--sand); border-radius: 10px; padding: 12px; }
-  .how-num { font-size: 22px; font-weight: 700; color: var(--terra-md); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
-  .how-text { font-size: 12px; color: var(--ink); line-height: 1.6; }
-  /* ─── FOOTER ─── */
-  footer {
-    text-align: center;
-    padding: 1.5rem;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeSlideIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .anim-in { animation: fadeSlideIn 0.35s ease forwards; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  body { font-family: 'Syne', sans-serif; background: var(--cream); color: var(--charcoal); min-height: 100vh; }
+
+  header { background: var(--terra); padding: 2rem 2rem 1.5rem; position: relative; overflow: hidden; }
+  header::before { content:''; position:absolute; top:-40px; right:-40px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.06); }
+  header::after  { content:''; position:absolute; bottom:-60px; left:30%; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,0.04); }
+  .header-inner { max-width:860px; margin:0 auto; position:relative; z-index:1; }
+  .header-tag { display:inline-block; background:rgba(255,255,255,0.15); color:#FAECE7; font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:10px; }
+  header h1 { font-size:clamp(1.6rem,4vw,2.2rem); font-weight:700; color:#fff; line-height:1.15; margin-bottom:6px; }
+  header p  { font-size:13px; color:#F5C4B3; font-weight:400; max-width:520px; line-height:1.6; }
+
+  main { max-width:860px; margin:0 auto; padding:1.5rem 1.25rem 3rem; }
+
+  .card { background:#fff; border-radius:16px; border:1px solid var(--border); padding:1.25rem 1.5rem; margin-bottom:1rem; }
+  .card-header { display:flex; align-items:center; gap:10px; margin-bottom:1rem; }
+  .card-icon { width:32px; height:32px; border-radius:8px; background:var(--terra-lt); display:flex; align-items:center; justify-content:center; color:var(--terra); font-size:15px; font-family:'JetBrains Mono',monospace; font-weight:600; }
+  .card-title { font-size:13px; font-weight:600; color:var(--ink); letter-spacing:0.04em; }
+
+  /* Theory */
+  .theory-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1rem; }
+  @media(max-width:580px){ .theory-grid{grid-template-columns:1fr;} }
+  .theory-block { background:var(--sand); border-radius:12px; padding:1rem 1.1rem; border-left:3px solid var(--terra); }
+  .theory-block h3 { font-size:12px; font-weight:700; color:var(--terra-dk); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .theory-block p, .theory-block li { font-size:12px; color:var(--ink); line-height:1.7; }
+  .theory-block ol { padding-left:1.1rem; }
+  .theory-block li { margin-bottom:3px; }
+  .formula-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .formula-pill { background:var(--terra-lt); color:var(--terra-dk); font-size:11px; font-family:'JetBrains Mono',monospace; padding:3px 10px; border-radius:6px; font-weight:500; }
+  .regular-note { background:var(--green-lt); border-left:3px solid var(--green); border-radius:12px; padding:0.75rem 1rem; margin-top:0.5rem; font-size:12px; color:#1A3D28; line-height:1.6; }
+  .regular-note strong { color:var(--green); }
+
+  .sec-lbl { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:6px; }
+
+  /* Pills */
+  .pill-grid { display:flex; gap:6px; flex-wrap:wrap; }
+  .pill { padding:6px 14px; border-radius:20px; font-size:12px; font-weight:500; border:1.5px solid transparent; cursor:pointer; transition:all 0.18s; font-family:'JetBrains Mono',monospace; }
+  .pill.active { background:var(--terra); color:#fff; border-color:var(--terra); }
+  .pill:not(.active) { background:var(--terra-lt); color:var(--terra-dk); border-color:#F0997B; }
+  .pill:not(.active):hover { background:#F5C4B3; }
+  .pill-regular:not(.active) { background:var(--green-lt); color:var(--green); border-color:rgba(45,122,79,0.4); border-style:dashed; }
+  .pill-regular:not(.active):hover { background:#c8e8d5; }
+  .pill-regular.active { background:var(--green); border-color:var(--green); }
+
+  /* Input */
+  .input-row { display:flex; gap:8px; margin-top:1rem; flex-wrap:wrap; }
+  .str-input { flex:1; min-width:120px; padding:10px 14px; border-radius:10px; border:1.5px solid var(--border); background:var(--sand); font-size:16px; font-family:'JetBrains Mono',monospace; color:var(--charcoal); outline:none; transition:border-color 0.15s; }
+  .str-input:focus { border-color:var(--terra); }
+  .run-btn { padding:10px 22px; border-radius:10px; background:var(--terra); color:#fff; font-family:'Syne',sans-serif; font-size:13px; font-weight:600; border:none; cursor:pointer; transition:background 0.15s,transform 0.1s; }
+  .run-btn:hover  { background:var(--terra-dk); }
+  .run-btn:active { transform:scale(0.97); }
+
+  /* Pump length row */
+  .pump-len-row { display:flex; align-items:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
+  .pump-len-row label { font-size:12px; color:var(--muted); font-weight:500; white-space:nowrap; }
+  .p-input { width:60px; padding:6px 10px; border-radius:8px; border:1.5px solid var(--border); background:var(--sand); font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--charcoal); outline:none; }
+  .p-input:focus { border-color:var(--terra); }
+  .auto-btn { padding:6px 14px; border-radius:8px; background:var(--sand); border:1.5px solid var(--border); font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; font-family:'Syne',sans-serif; transition:background 0.15s; }
+  .auto-btn:hover { background:var(--terra-lt); color:var(--terra-dk); border-color:#F0997B; }
+
+  #error-msg { display:none; background:var(--red-lt); color:var(--red); font-size:12px; padding:8px 12px; border-radius:8px; margin-top:8px; font-weight:500; }
+
+  #result-section { display:none; }
+
+  /* Tape */
+  .tape-wrap { margin:0.75rem 0 1.25rem; }
+  .tape { display:flex; border-radius:12px; overflow:hidden; border:2px solid var(--terra); }
+  .tape-seg { padding:14px 8px; text-align:center; transition:flex 0.4s cubic-bezier(.4,0,.2,1); min-width:50px; }
+  .tape-x { background:var(--blue-lt); border-right:1px solid rgba(26,92,153,0.2); }
+  .tape-y { background:var(--terra); position:relative; }
+  .tape-z { background:var(--green-lt); border-left:1px solid rgba(45,122,79,0.2); }
+  .tape-lbl { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+  .tape-x .tape-lbl { color:var(--blue); }
+  .tape-y .tape-lbl { color:rgba(255,255,255,0.7); }
+  .tape-z .tape-lbl { color:var(--green); }
+  .tape-val { font-size:22px; font-weight:700; font-family:'JetBrains Mono',monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tape-x .tape-val { color:var(--blue); }
+  .tape-y .tape-val { color:#fff; }
+  .tape-z .tape-val { color:var(--green); }
+  .tape-arrow { position:absolute; bottom:-12px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:12px solid var(--terra); }
+
+  /* Regular tape border */
+  .tape-regular { border-color:var(--green); }
+  .tape-regular .tape-y { background:var(--green); }
+  .tape-regular .tape-arrow { border-top-color:var(--green); }
+
+  .rules { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:1rem; }
+  .rule-badge { font-size:11px; font-family:'JetBrains Mono',monospace; padding:4px 10px; border-radius:6px; font-weight:500; }
+  .rb-ok   { background:var(--green-lt); color:var(--green); }
+  .rb-info { background:var(--blue-lt);  color:var(--blue); }
+  .rb-warn { background:var(--amber-lt); color:var(--amber); }
+
+  .lang-type-badge { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:6px; margin-bottom:10px; }
+  .ltb-nonreg { background:var(--red-lt); color:var(--red); }
+  .ltb-reg    { background:var(--green-lt); color:var(--green); }
+
+  /* Pump control */
+  .pump-ctrl { display:flex; align-items:center; gap:14px; margin:0.5rem 0 0.75rem; flex-wrap:wrap; }
+  .pump-lbl  { font-size:13px; color:var(--muted); font-weight:500; }
+  .pump-btns { display:flex; align-items:center; gap:8px; }
+  .pbtn { width:32px; height:32px; border-radius:8px; background:var(--terra-lt); border:1.5px solid #F0997B; color:var(--terra-dk); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:600; transition:background 0.15s; line-height:1; }
+  .pbtn:hover { background:#F5C4B3; }
+  .pval { font-size:24px; font-weight:700; color:var(--terra); min-width:32px; text-align:center; font-family:'JetBrains Mono',monospace; }
+  .animate-btn { padding:7px 16px; border-radius:8px; background:var(--blue-lt); border:1.5px solid rgba(26,92,153,0.25); color:var(--blue); font-family:'Syne',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:background 0.15s; }
+  .animate-btn:hover   { background:#c8dff5; }
+  .animate-btn.running { background:var(--amber-lt); color:var(--amber); border-color:rgba(176,125,26,0.3); }
+
+  .result-str { background:var(--sand); border-radius:10px; padding:12px 16px; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--ink); margin-bottom:10px; line-height:1.8; word-break:break-all; }
+  .hl-y { color:var(--terra); font-weight:700; }
+
+  .verdict { border-radius:10px; padding:12px 16px; display:flex; align-items:flex-start; gap:10px; font-size:13px; line-height:1.5; border-left:3px solid; }
+  .verdict.bad  { background:var(--red-lt);   color:#4A1313; border-color:var(--red); }
+  .verdict.good { background:var(--green-lt); color:#1A3D28; border-color:var(--green); }
+  .verdict-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+
+  .stats { display:flex; gap:8px; margin-top:1rem; flex-wrap:wrap; }
+  .stat { flex:1; min-width:70px; background:var(--sand); border-radius:10px; padding:12px 8px; text-align:center; }
+  .stat-val { font-size:22px; font-weight:700; color:var(--terra); font-family:'JetBrains Mono',monospace; }
+  .stat-lbl { font-size:10px; color:var(--muted); font-weight:500; margin-top:3px; letter-spacing:0.05em; text-transform:uppercase; }
+
+  .explain-box { background:var(--amber-lt); border-radius:10px; padding:12px 14px; border-left:3px solid var(--amber); margin-top:0.75rem; }
+  .explain-box p { font-size:12px; color:var(--ink); line-height:1.65; }
+  .explain-box strong { color:var(--terra-dk); }
+
+  /* Proof */
+  .proof-card { background:#fff; border-radius:16px; border:1px solid var(--border); padding:1.25rem 1.5rem; margin-bottom:1rem; }
+  .proof-step { display:flex; gap:12px; margin-bottom:14px; }
+  .proof-step:last-child { margin-bottom:0; }
+  .proof-num { width:26px; height:26px; border-radius:50%; background:var(--terra); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .proof-body h4 { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+  .proof-body p  { font-size:12px; color:var(--muted); line-height:1.65; }
+  .proof-body p strong { color:var(--ink); }
+  .proof-body code { font-family:'JetBrains Mono',monospace; background:var(--sand); padding:1px 5px; border-radius:4px; font-size:11px; color:var(--terra-dk); }
+  .proof-connector { width:2px; background:var(--border); margin:-8px 0 -8px 12px; height:14px; }
+  .proof-regular-note { background:var(--green-lt); border-left:3px solid var(--green); border-radius:10px; padding:10px 14px; margin-top:12px; font-size:12px; color:#1A3D28; line-height:1.65; }
+  .proof-regular-note strong { color:var(--green); }
+
+  /* How it works */
+  .how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-top:0.5rem; }
+  .how-item { background:var(--sand); border-radius:10px; padding:12px; }
+  .how-num  { font-size:22px; font-weight:700; color:var(--terra-md); font-family:'JetBrains Mono',monospace; margin-bottom:4px; }
+  .how-text { font-size:12px; color:var(--ink); line-height:1.6; }
+
+  footer { text-align:center; padding:1.5rem; font-size:11px; color:var(--muted); letter-spacing:0.04em; }
+
+  @keyframes fadeSlideIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+  .anim-in { animation:fadeSlideIn 0.35s ease forwards; }
+  @keyframes tapePulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+  .tape-pulse .tape-y { animation:tapePulse 0.5s ease; }
 </style>
 </head>
 <body>
@@ -341,370 +181,488 @@
 <header>
   <div class="header-inner">
     <div class="header-tag">Automata and Formal Languages</div>
-    <h1>Pumping Lemma<br>Demonstration Tool</h1>
-    <p>Interactively prove that a language is <em>not regular</em> by decomposing strings and pumping the middle segment.</p>
+    <h1>Pumping Lemma<br>Visualization Tool</h1>
+    <p>Interactively prove that a language is <em>not regular</em>, and observe how pumping always holds for regular languages.</p>
   </div>
 </header>
 
 <main>
 
-  <!-- STEP 1: CHOOSE + INPUT -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon">01</div>
-      <div class="card-title">Choose a Language &amp; Enter a String</div>
-    </div>
-
-    <div class="sec-lbl">Language</div>
-    <div class="pill-grid" id="lang-pills">
-      <div class="pill active" data-lang="anbn">aⁿbⁿ</div>
-      <div class="pill" data-lang="anbncn">aⁿbⁿcⁿ</div>
-      <div class="pill" data-lang="wwr">wwᴿ (palindrome)</div>
-      <div class="pill" data-lang="prime">aᵖ (prime length)</div>
-    </div>
-
-    <div class="input-row">
-      <input class="str-input" id="str-input" type="text" placeholder="e.g. aabb" value="aabb" maxlength="30" />
-      <button class="run-btn" id="run-btn">Analyse →</button>
-    </div>
-    <div id="error-msg"></div>
+<!-- THEORY -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon">T</div>
+    <div class="card-title">What is the Pumping Lemma?</div>
   </div>
-
-  <!-- RESULT SECTION -->
-  <div id="result-section">
-
-    <!-- STEP 2: DECOMPOSITION -->
-    <div class="card anim-in" id="card-decomp">
-      <div class="card-header">
-        <div class="card-icon">02</div>
-        <div class="card-title">String Decomposition — x · y · z</div>
-      </div>
-      <div class="rules" id="rules-badges"></div>
-      <div class="tape-wrap">
-        <div class="tape" id="tape">
-          <div class="tape-seg tape-x" id="seg-x">
-            <div class="tape-lbl">x</div>
-            <div class="tape-val" id="val-x">—</div>
-          </div>
-          <div class="tape-seg tape-y" id="seg-y">
-            <div class="tape-arrow"></div>
-            <div class="tape-lbl">y · pump</div>
-            <div class="tape-val" id="val-y">—</div>
-          </div>
-          <div class="tape-seg tape-z" id="seg-z">
-            <div class="tape-lbl">z</div>
-            <div class="tape-val" id="val-z">—</div>
-          </div>
-        </div>
-      </div>
-      <div class="explain-box">
-        <p id="decomp-explain"></p>
+  <div class="theory-grid">
+    <div class="theory-block">
+      <h3>The Pumping Lemma (Statement)</h3>
+      <p>If <strong>L</strong> is a regular language, then there exists a pumping length <strong>p ≥ 1</strong> such that every string <strong>s ∈ L</strong> with |s| ≥ p can be written as <strong>s = xyz</strong> satisfying all three conditions:</p>
+      <div class="formula-row">
+        <span class="formula-pill">|y| ≥ 1</span>
+        <span class="formula-pill">|xy| ≤ p</span>
+        <span class="formula-pill">∀i ≥ 0 : xyⁱz ∈ L</span>
       </div>
     </div>
-
-    <!-- STEP 3: PUMP -->
-    <div class="card anim-in" id="card-pump">
-      <div class="card-header">
-        <div class="card-icon">03</div>
-        <div class="card-title">Pump the y Segment</div>
-      </div>
-      <div class="pump-ctrl">
-        <span class="pump-lbl">Pump count  i =</span>
-        <div class="pump-btns">
-          <button class="pbtn" id="btn-dec">−</button>
-          <div class="pval" id="pump-count">1</div>
-          <button class="pbtn" id="btn-inc">+</button>
-        </div>
-      </div>
-      <div class="result-str" id="result-str"></div>
-      <div class="verdict" id="verdict-box">
-        <span class="verdict-icon" id="verdict-icon"></span>
-        <span id="verdict-text"></span>
-      </div>
-      <div class="stats">
-        <div class="stat"><div class="stat-val" id="st-len">0</div><div class="stat-lbl">String Length</div></div>
-        <div class="stat"><div class="stat-val" id="st-p">0</div><div class="stat-lbl">Pump Length p</div></div>
-        <div class="stat"><div class="stat-val" id="st-i">0</div><div class="stat-lbl">Current i</div></div>
-        <div class="stat"><div class="stat-val" id="st-pumped">0</div><div class="stat-lbl">Pumped Length</div></div>
-      </div>
-    </div>
-
-  </div><!-- /result-section -->
-
-  <!-- HOW IT WORKS -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon">?</div>
-      <div class="card-title">How the Pumping Lemma Works</div>
-    </div>
-    <div class="how-grid">
-      <div class="how-item">
-        <div class="how-num">01</div>
-        <div class="how-text">Every regular language has a <strong>pumping length p</strong>. Any string longer than p can be split into x·y·z.</div>
-      </div>
-      <div class="how-item">
-        <div class="how-num">02</div>
-        <div class="how-text"><strong>y is non-empty</strong> and the combined length |xy| ≤ p. y comes from the earliest repeating section.</div>
-      </div>
-      <div class="how-item">
-        <div class="how-num">03</div>
-        <div class="how-text">For a regular language, <strong>xyⁱz must stay in the language</strong> for every i ≥ 0.</div>
-      </div>
-      <div class="how-item">
-        <div class="how-num">04</div>
-        <div class="how-text">If pumping breaks the language for <strong>any i</strong>, the language is <strong>NOT regular</strong>.</div>
-      </div>
+    <div class="theory-block">
+      <h3>Proving Non-Regularity</h3>
+      <p>To show <strong>L is NOT regular</strong>, we use a proof by contradiction:</p>
+      <ol>
+        <li>Assume L is regular with pumping length p.</li>
+        <li>Choose a string s ∈ L with |s| ≥ p strategically.</li>
+        <li>For every valid split s = xyz (|y|≥1, |xy|≤p)...</li>
+        <li>Find some i ≥ 0 such that xyⁱz ∉ L.</li>
+        <li>This contradicts the lemma → L is <strong>NOT regular</strong>.</li>
+      </ol>
     </div>
   </div>
+  <div class="regular-note">
+    <strong>Regular Languages:</strong> For languages like <strong>a*b*</strong> and <strong>(ab)+</strong>, the pumping lemma always holds — pumping never causes a contradiction because these languages genuinely are regular (accepted by finite automata). This tool demonstrates both cases side by side.
+  </div>
+</div>
+
+<!-- STEP 1 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon">01</div>
+    <div class="card-title">Choose a Language &amp; Enter a String</div>
+  </div>
+
+  <div class="sec-lbl" style="margin-bottom:4px;">Non-Regular Languages — pumping finds a contradiction</div>
+  <div class="pill-grid" style="margin-bottom:12px;" id="lang-pills">
+    <div class="pill active" data-lang="anbn">aⁿbⁿ</div>
+    <div class="pill" data-lang="anbncn">aⁿbⁿcⁿ</div>
+    <div class="pill" data-lang="wwr">wwᴿ (palindrome)</div>
+    <div class="pill" data-lang="prime">aᵖ (prime length)</div>
+  </div>
+
+  <div class="sec-lbl" style="margin-bottom:4px;">Regular Languages — pumping always holds ✓</div>
+  <div class="pill-grid" id="lang-pills-reg">
+    <div class="pill pill-regular" data-lang="astarb">a*b*</div>
+    <div class="pill pill-regular" data-lang="abplus">(ab)+</div>
+  </div>
+
+  <div class="input-row">
+    <input class="str-input" id="str-input" type="text" placeholder="e.g. aabb" value="aabb" maxlength="40" />
+    <button class="run-btn" id="run-btn">Analyse →</button>
+  </div>
+
+  <div class="pump-len-row">
+    <label>Pumping length p =</label>
+    <input class="p-input" id="p-input" type="number" min="1" max="99" placeholder="auto" />
+    <button class="auto-btn" id="auto-btn">Auto</button>
+    <span style="font-size:11px;color:var(--muted);">Leave blank or click Auto to compute automatically</span>
+  </div>
+
+  <div id="error-msg"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="result-section">
+
+  <!-- DECOMPOSITION -->
+  <div class="card anim-in" id="card-decomp">
+    <div class="card-header">
+      <div class="card-icon">02</div>
+      <div class="card-title">String Decomposition — s = x · y · z</div>
+    </div>
+    <div id="lang-type-badge"></div>
+    <div class="rules" id="rules-badges"></div>
+    <div class="tape-wrap">
+      <div class="tape" id="tape">
+        <div class="tape-seg tape-x" id="seg-x">
+          <div class="tape-lbl">x</div>
+          <div class="tape-val" id="val-x">—</div>
+        </div>
+        <div class="tape-seg tape-y" id="seg-y">
+          <div class="tape-arrow"></div>
+          <div class="tape-lbl">y · pump</div>
+          <div class="tape-val" id="val-y">—</div>
+        </div>
+        <div class="tape-seg tape-z" id="seg-z">
+          <div class="tape-lbl">z</div>
+          <div class="tape-val" id="val-z">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="explain-box"><p id="decomp-explain"></p></div>
+  </div>
+
+  <!-- PUMP -->
+  <div class="card anim-in" id="card-pump">
+    <div class="card-header">
+      <div class="card-icon">03</div>
+      <div class="card-title">Pump the y Segment</div>
+    </div>
+    <div class="pump-ctrl">
+      <span class="pump-lbl">Pump count  i =</span>
+      <div class="pump-btns">
+        <button class="pbtn" id="btn-dec">−</button>
+        <div class="pval" id="pump-count">1</div>
+        <button class="pbtn" id="btn-inc">+</button>
+      </div>
+      <button class="animate-btn" id="animate-btn">▶ Animate Pumping</button>
+    </div>
+    <div class="result-str" id="result-str"></div>
+    <div class="verdict" id="verdict-box">
+      <span class="verdict-icon" id="verdict-icon"></span>
+      <span id="verdict-text"></span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="st-len">0</div><div class="stat-lbl">String Length</div></div>
+      <div class="stat"><div class="stat-val" id="st-p">0</div><div class="stat-lbl">Pump Length p</div></div>
+      <div class="stat"><div class="stat-val" id="st-i">0</div><div class="stat-lbl">Current i</div></div>
+      <div class="stat"><div class="stat-val" id="st-pumped">0</div><div class="stat-lbl">Pumped Length</div></div>
+    </div>
+  </div>
+
+  <!-- PROOF -->
+  <div class="proof-card anim-in" id="card-proof">
+    <div class="card-header">
+      <div class="card-icon">04</div>
+      <div class="card-title">Formal Proof</div>
+    </div>
+    <div id="proof-steps"></div>
+  </div>
+
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon">?</div>
+    <div class="card-title">How the Pumping Lemma Works</div>
+  </div>
+  <div class="how-grid">
+    <div class="how-item"><div class="how-num">01</div><div class="how-text">Every regular language has a <strong>pumping length p</strong>. Any string in the language with length ≥ p can be split into x·y·z.</div></div>
+    <div class="how-item"><div class="how-num">02</div><div class="how-text"><strong>y is non-empty</strong> and |xy| ≤ p. y is always chosen from the first p characters — typically the earliest repeating section.</div></div>
+    <div class="how-item"><div class="how-num">03</div><div class="how-text">For a regular language, <strong>xyⁱz must stay in the language</strong> for every i ≥ 0. No exceptions allowed.</div></div>
+    <div class="how-item"><div class="how-num">04</div><div class="how-text">If pumping breaks membership for <strong>any i</strong>, we have a contradiction, and the language is <strong>NOT regular</strong>.</div></div>
+  </div>
+</div>
 
 </main>
 <footer>@Snehaai · Pumping Lemma Visualizer · Automata and Formal Languages</footer>
 
 <script>
-// ─── LANGUAGE DEFINITIONS ───────────────────────────────────────────────────
+// ─── LANGUAGE DEFINITIONS ────────────────────────────────────────────────────
 const LANGUAGES = {
+
   anbn: {
-    name: "aⁿbⁿ",
-    desc: "Strings with equal number of a's followed by b's",
-    validate(s) {
-      const m = s.match(/^(a*)(b*)$/);
-      if (!m) return false;
-      return m[1].length === m[2].length && m[1].length > 0;
-    },
-    generatePumping(p) {
-      return 'a'.repeat(p) + 'b'.repeat(p);
-    },
-    decompose(s) {
-      // Find first 'b' position — y always comes from a-block
-      const aCount = s.match(/^a*/)[0].length;
-      const p = aCount;
-      // y is a single 'a' from the a-block, x is remaining a's before it
-      const xLen = Math.max(0, p - 1);
-      const yLen = 1;
-      return { p, xLen, yLen };
-    },
-    explain(x, y, z, p) {
-      return `Pumping length <strong>p = ${p}</strong>. The y segment "<strong>${y}</strong>" is taken from the a-block because |xy| = ${x.length + y.length} ≤ p. Pumping y changes the a-count without changing b-count, breaking the aⁿbⁿ rule.`;
+    name: "aⁿbⁿ", isRegular: false,
+    validate(s) { const m=s.match(/^(a+)(b+)$/); return m?m[1].length===m[2].length:false; },
+    autoPumping(s) { return Math.max(1, s.match(/^a*/)[0].length); },
+    decompose(s,p) { return { xLen:Math.max(0,p-1), yLen:1 }; },
+    explain(x,y,z,p) { return `Pumping length <strong>p=${p}</strong>. y="<strong>${y}</strong>" is from the a-block (|xy|=${x.length+y.length}≤p). Pumping adds a's without adding b's — this breaks the aⁿbⁿ balance.`; },
+    generateExample(p) { return 'a'.repeat(p)+'b'.repeat(p); },
+    proof(s,x,y,z,p,i) {
+      const pumped=x+y.repeat(i)+z, inL=this.validate(pumped);
+      const aC=pumped.match(/^a*/)[0].length, bC=(pumped.match(/b+$/)||[''])[0].length;
+      return { isRegular:false, steps:[
+        {title:"Assume aⁿbⁿ is regular", body:`By the Pumping Lemma, ∃ pumping length <strong>p=${p}</strong>.`},
+        {title:"Choose s ∈ L", body:`<code>s="${s}"</code>, |s|=${s.length}≥p=${p}. The string has ${s.match(/^a*/)[0].length} a's and ${s.match(/b+$/)[0].length} b's. ✓ s ∈ L`},
+        {title:"Adversary splits s=xyz", body:`Since |xy|≤p=${p}, y lies in the a-block. <code>x="${x||'ε'}"</code>, <code>y="${y}"</code>, <code>z="${z||'ε'}"</code>. |y|=${y.length}≥1 ✓`},
+        {title:`Pump with i=${i}`, body:`xy<sup>${i}</sup>z = <code>${pumped.length>40?pumped.slice(0,38)+'…':pumped}</code> (length ${pumped.length}). Has ${aC} a's and ${bC} b's. <strong>${inL?'✓ still balanced':'✗ '+aC+' a\'s ≠ '+bC+' b\'s — NOT in L!'}</strong>`},
+        {title:inL?"No contradiction at i="+i:"Contradiction!", body:inL?`Try i=0 or i=2 to find a contradiction.`:`xyⁱz ∉ L for i=${i}. The Pumping Lemma is violated. <strong>∴ aⁿbⁿ is NOT regular. □</strong>`}
+      ]};
     }
   },
+
   anbncn: {
-    name: "aⁿbⁿcⁿ",
-    desc: "Strings with equal a's, b's and c's",
-    validate(s) {
-      const m = s.match(/^(a*)(b*)(c*)$/);
-      if (!m) return false;
-      const [,a,b,c] = m;
-      return a.length === b.length && b.length === c.length && a.length > 0;
-    },
-    generatePumping(p) {
-      return 'a'.repeat(p) + 'b'.repeat(p) + 'c'.repeat(p);
-    },
-    decompose(s) {
-      const aCount = s.match(/^a*/)[0].length;
-      const p = aCount;
-      const xLen = Math.max(0, p - 1);
-      const yLen = 1;
-      return { p, xLen, yLen };
-    },
-    explain(x, y, z, p) {
-      return `Pumping length <strong>p = ${p}</strong>. y = "<strong>${y}</strong>" is from the a-block. Pumping changes only the a-count while b and c counts stay fixed, violating aⁿbⁿcⁿ.`;
+    name: "aⁿbⁿcⁿ", isRegular: false,
+    validate(s) { const m=s.match(/^(a+)(b+)(c+)$/); return m&&m[1].length===m[2].length&&m[2].length===m[3].length; },
+    autoPumping(s) { return Math.max(1, s.match(/^a*/)[0].length); },
+    decompose(s,p) { return { xLen:Math.max(0,p-1), yLen:1 }; },
+    explain(x,y,z,p) { return `Pumping length <strong>p=${p}</strong>. y="<strong>${y}</strong>" is from the a-block. Pumping changes only a-count; b and c counts stay fixed — the triple equality is broken.`; },
+    generateExample(p) { return 'a'.repeat(p)+'b'.repeat(p)+'c'.repeat(p); },
+    proof(s,x,y,z,p,i) {
+      const pumped=x+y.repeat(i)+z, inL=this.validate(pumped);
+      const aC=pumped.match(/^a*/)[0].length, bC=(pumped.match(/b+/)||[''])[0].length, cC=(pumped.match(/c+$/)||[''])[0].length;
+      return { isRegular:false, steps:[
+        {title:"Assume aⁿbⁿcⁿ is regular", body:`By the Pumping Lemma, ∃ pumping length <strong>p=${p}</strong>.`},
+        {title:"Choose s ∈ L", body:`<code>s="${s}"</code>, |s|=${s.length}≥p=${p}. ✓ s ∈ L`},
+        {title:"Adversary splits s=xyz", body:`y lies entirely in the a-block (|xy|≤p). <code>x="${x||'ε'}"</code>, <code>y="${y}"</code>, <code>z="${z||'ε'}"</code>.`},
+        {title:`Pump with i=${i}`, body:`xy<sup>${i}</sup>z = <code>${pumped.length>40?pumped.slice(0,38)+'…':pumped}</code>. Counts: ${aC} a's, ${bC} b's, ${cC} c's. <strong>${inL?'✓ still equal':'✗ counts unequal — NOT in L!'}</strong>`},
+        {title:inL?"No contradiction at i="+i:"Contradiction!", body:inL?`Try i=0 or i=2.`:`xyⁱz ∉ L. <strong>∴ aⁿbⁿcⁿ is NOT regular. □</strong>`}
+      ]};
     }
   },
+
   wwr: {
-    name: "wwᴿ",
-    desc: "Palindromes — strings equal to their reverse",
-    validate(s) {
-      return s.length > 0 && s === s.split('').reverse().join('') && /^[ab]+$/.test(s);
-    },
-    generatePumping(p) {
-      const half = 'a'.repeat(p);
-      return half + half.split('').reverse().join('');
-    },
-    decompose(s) {
-      const p = Math.ceil(s.length / 4);
-      const xLen = 0;
-      const yLen = Math.min(2, p);
-      return { p: p * 2, xLen, yLen };
-    },
-    explain(x, y, z, p) {
-      return `Pumping length <strong>p = ${p}</strong>. y = "<strong>${y}</strong>" is from the start of the string. Pumping y makes the left side longer than the right side, so the string can no longer be a palindrome.`;
+    name: "wwᴿ", isRegular: false,
+    validate(s) { return /^[ab]+$/.test(s)&&s===s.split('').reverse().join(''); },
+    autoPumping(s) { return Math.max(2,Math.ceil(s.length/4)*2); },
+    decompose(s,p) { return { xLen:0, yLen:Math.max(1,Math.min(2,Math.floor(p/2))) }; },
+    explain(x,y,z,p) { return `Pumping length <strong>p=${p}</strong>. y="<strong>${y}</strong>" from the start of the string. Pumping makes the left prefix longer without extending the right suffix — the palindrome symmetry is destroyed.`; },
+    generateExample(p) { const h='a'.repeat(p); return h+h.split('').reverse().join(''); },
+    proof(s,x,y,z,p,i) {
+      const pumped=x+y.repeat(i)+z, inL=this.validate(pumped);
+      const rev=pumped.split('').reverse().join('');
+      return { isRegular:false, steps:[
+        {title:"Assume wwᴿ is regular", body:`By the Pumping Lemma, ∃ pumping length <strong>p=${p}</strong>.`},
+        {title:"Choose s ∈ L", body:`<code>s="${s}"</code> is a palindrome, |s|=${s.length}≥p. ✓ s ∈ L`},
+        {title:"Adversary splits s=xyz", body:`y comes from the left half (|xy|≤p). <code>x="${x||'ε'}"</code>, <code>y="${y}"</code>, <code>z="${z||'ε'}"</code>.`},
+        {title:`Pump with i=${i}`, body:`xy<sup>${i}</sup>z = <code>${pumped.length>30?pumped.slice(0,28)+'…':pumped}</code>. Reverse = <code>${rev.length>30?rev.slice(0,28)+'…':rev}</code>. <strong>${inL?'✓ still a palindrome':'✗ NOT a palindrome — NOT in L!'}</strong>`},
+        {title:inL?"No contradiction at i="+i:"Contradiction!", body:inL?`Try i=0 or i=3.`:`xyⁱz ∉ wwᴿ. <strong>∴ wwᴿ is NOT regular. □</strong>`}
+      ]};
     }
   },
+
   prime: {
-    name: "aᵖ",
-    desc: "Strings of a's whose length is a prime number",
-    validate(s) {
-      const n = s.length;
-      if (!/^a+$/.test(s) || n < 2) return false;
-      for (let i = 2; i <= Math.sqrt(n); i++) if (n % i === 0) return false;
-      return true;
+    name: "aᵖ (prime)", isRegular: false,
+    validate(s) { const n=s.length; if(!/^a+$/.test(s)||n<2)return false; for(let i=2;i<=Math.sqrt(n);i++)if(n%i===0)return false; return true; },
+    autoPumping(s) { return 2; },
+    decompose(s,p) { return { xLen:0, yLen:Math.min(2,s.length-1) }; },
+    explain(x,y,z,p) { return `Pumping length <strong>p=${p}</strong>. y="<strong>${y}</strong>" (|y|=${y.length}). Original length q is prime. Pumped length = q+(i−1)·|y|. For most i, this is composite — contradicting prime membership.`; },
+    generateExample(p) { return 'a'.repeat(7); },
+    proof(s,x,y,z,p,i) {
+      const pumped=x+y.repeat(i)+z, inL=this.validate(pumped), n=pumped.length;
+      return { isRegular:false, steps:[
+        {title:"Assume {aᵖ : p prime} is regular", body:`By the Pumping Lemma, ∃ pumping length <strong>p=${p}</strong>.`},
+        {title:"Choose s ∈ L", body:`<code>s="${s}"</code>, |s|=${s.length} (prime). ✓ s ∈ L`},
+        {title:"Split s=xyz", body:`<code>x="${x||'ε'}"</code>, <code>y="${y}"</code>, <code>z="${z||'ε'}"</code>. |y|=${y.length}.`},
+        {title:`Pump with i=${i}`, body:`Pumped length = ${s.length}+(${i}−1)·${y.length} = <strong>${n}</strong>. Is ${n} prime? <strong>${inL?'✓ Yes, still in L':'✗ No — '+factorize(n)+' (composite) → NOT in L'}</strong>`},
+        {title:inL?"No contradiction at i="+i:"Contradiction!", body:inL?`Try a larger i to produce a composite length.`:`Pumped length ${n} is composite → xyⁱz ∉ L. <strong>∴ {aᵖ} is NOT regular. □</strong>`}
+      ]};
+    }
+  },
+
+  // ── REGULAR LANGUAGES ──
+
+  astarb: {
+    name: "a*b*", isRegular: true,
+    validate(s) { return /^a*b*$/.test(s)&&s.length>0; },
+    autoPumping(s) { return Math.max(1,Math.floor(s.length/2)); },
+    decompose(s,p) {
+      const aCount=s.match(/^a*/)[0].length;
+      return aCount>0 ? {xLen:0,yLen:Math.min(aCount,Math.max(1,p))} : {xLen:0,yLen:Math.min(s.length,Math.max(1,p))};
     },
-    generatePumping(p) {
-      return 'a'.repeat(p);
-    },
-    decompose(s) {
-      const p = 2;
-      const xLen = 0;
-      const yLen = 2;
-      return { p, xLen, yLen };
-    },
-    explain(x, y, z, p) {
-      return `Pumping length <strong>p = ${p}</strong>. y = "<strong>${y}</strong>". If original length is prime q, pumped length is q + (i−1)·|y|. This will be composite for most values of i, proving not all pumped strings have prime length.`;
+    explain(x,y,z,p) { return `Pumping length <strong>p=${p}</strong>. y="<strong>${y}</strong>" consists entirely of a's (or b's). Since a*b* accepts any number of a's followed by any number of b's, pumping y simply changes the count — the result is always still in a*b*. <strong>Pumping always holds ✓</strong>`; },
+    generateExample(p) { return 'a'.repeat(p)+'b'.repeat(p); },
+    proof(s,x,y,z,p,i) {
+      const pumped=x+y.repeat(Math.max(0,i)), inL=this.validate(pumped);
+      return { isRegular:true, steps:[
+        {title:"a*b* is a regular language", body:`Described by the regex <code>a*b*</code> and accepted by a 2-state DFA. The Pumping Lemma must hold for all valid strings.`},
+        {title:"Choose s ∈ L", body:`<code>s="${s}"</code>, |s|=${s.length}≥p=${p}. ✓ s ∈ L`},
+        {title:"Split s=xyz", body:`<code>x="${x||'ε'}"</code>, <code>y="${y}"</code>, <code>z="${z||'ε'}"</code>. y is all a's — pumping only changes the a-count.`},
+        {title:`Pump with i=${i}`, body:`xy<sup>${i}</sup>z = <code>${pumped.length>40?pumped.slice(0,38)+'…':pumped}</code> (length ${pumped.length}). Test against a*b*: <strong>${inL?'✓ still in L — no contradiction!':'✗ string is invalid input (not in L to begin with)'}</strong>`},
+        {title:"Pumping Lemma holds for all i≥0", body:`Pumping y (all a's) always keeps the a*b* pattern intact. <strong>∴ a*b* is regular — Pumping Lemma satisfied. □</strong>`}
+      ]};
+    }
+  },
+
+  abplus: {
+    name: "(ab)+", isRegular: true,
+    validate(s) { return /^(ab)+$/.test(s); },
+    autoPumping(s) { return 2; },
+    decompose(s,p) { return { xLen:0, yLen:2 }; },
+    explain(x,y,z,p) { return `Pumping length <strong>p=${p}</strong>. y="<strong>${y}</strong>" = exactly one "ab" unit. Since (ab)+ accepts one or more copies of "ab", pumping y (adding more "ab" units) always keeps the result in the language. <strong>Pumping always holds ✓</strong>`; },
+    generateExample(p) { return 'ab'.repeat(Math.max(2,p)); },
+    proof(s,x,y,z,p,i) {
+      const pumped=x+y.repeat(Math.max(0,i))+z, inL=this.validate(pumped);
+      return { isRegular:true, steps:[
+        {title:"(ab)+ is a regular language", body:`Described by regex <code>(ab)+</code>. Accepted by a 3-state DFA. The Pumping Lemma must hold.`},
+        {title:"Choose s ∈ L", body:`<code>s="${s}"</code>, |s|=${s.length}≥p=${p}. ✓ s ∈ L (${s.length/2} "ab" unit${s.length/2!==1?'s':''}).`},
+        {title:"Split s=xyz", body:`<code>x="${x||'ε'}"</code>, <code>y="${y}"</code>, <code>z="${z||'ε'}"</code>. y="ab" is exactly one repetition unit.`},
+        {title:`Pump with i=${i}`, body:i===0?`xy⁰z = <code>${pumped}</code> (length ${pumped.length}). Removing "ab": <strong>${inL?'✓ still in L':pumped.length===0?'⚠ empty string — try a longer input with more ab units':'✗ not in L'}</strong>`:`xy<sup>${i}</sup>z = <code>${pumped}</code> = ${pumped.length/2} "ab" unit${pumped.length/2!==1?'s':''}. <strong>${inL?'✓ still in L — no contradiction!':'✗ not in L'}</strong>`},
+        {title:"Pumping Lemma holds for all i≥1", body:`Adding "ab" units always stays in (ab)+. <strong>∴ (ab)+ is regular — Pumping Lemma satisfied. □</strong>`}
+      ]};
     }
   }
 };
 
+function factorize(n) {
+  if(n<2)return String(n);
+  for(let i=2;i<=Math.sqrt(n);i++)if(n%i===0)return `${i}×${n/i}`;
+  return `${n} (prime)`;
+}
+
 // ─── STATE ───────────────────────────────────────────────────────────────────
-let currentLang = 'anbn';
-let currentStr  = '';
-let xStr = '', yStr = '', zStr = '';
-let pumpI = 1;
+let currentLang='anbn', currentStr='', xStr='', yStr='', zStr='', pumpI=1, currentP=0, animTimer=null;
 
-// ─── ELEMENTS ────────────────────────────────────────────────────────────────
-const pills      = document.querySelectorAll('.pill');
-const strInput   = document.getElementById('str-input');
-const runBtn     = document.getElementById('run-btn');
-const errorMsg   = document.getElementById('error-msg');
-const resultSec  = document.getElementById('result-section');
-const valX       = document.getElementById('val-x');
-const valY       = document.getElementById('val-y');
-const valZ       = document.getElementById('val-z');
-const segX       = document.getElementById('seg-x');
-const segY       = document.getElementById('seg-y');
-const segZ       = document.getElementById('seg-z');
-const rulesBadges= document.getElementById('rules-badges');
-const decompExpl = document.getElementById('decomp-explain');
-const pumpCount  = document.getElementById('pump-count');
-const resultStr  = document.getElementById('result-str');
-const verdictBox = document.getElementById('verdict-box');
-const verdictIcon= document.getElementById('verdict-icon');
-const verdictText= document.getElementById('verdict-text');
-const btnDec     = document.getElementById('btn-dec');
-const btnInc     = document.getElementById('btn-inc');
-const stLen      = document.getElementById('st-len');
-const stP        = document.getElementById('st-p');
-const stI        = document.getElementById('st-i');
-const stPumped   = document.getElementById('st-pumped');
+// ─── DOM ─────────────────────────────────────────────────────────────────────
+const allPills    = document.querySelectorAll('.pill');
+const strInput    = document.getElementById('str-input');
+const runBtn      = document.getElementById('run-btn');
+const pInput      = document.getElementById('p-input');
+const autoBtn     = document.getElementById('auto-btn');
+const errorMsg    = document.getElementById('error-msg');
+const resultSec   = document.getElementById('result-section');
+const valX        = document.getElementById('val-x');
+const valY        = document.getElementById('val-y');
+const valZ        = document.getElementById('val-z');
+const segX        = document.getElementById('seg-x');
+const segY        = document.getElementById('seg-y');
+const segZ        = document.getElementById('seg-z');
+const tape        = document.getElementById('tape');
+const rulesBadges = document.getElementById('rules-badges');
+const decompExpl  = document.getElementById('decomp-explain');
+const pumpCount   = document.getElementById('pump-count');
+const resultStr   = document.getElementById('result-str');
+const verdictBox  = document.getElementById('verdict-box');
+const verdictIcon = document.getElementById('verdict-icon');
+const verdictText = document.getElementById('verdict-text');
+const btnDec      = document.getElementById('btn-dec');
+const btnInc      = document.getElementById('btn-inc');
+const animBtn     = document.getElementById('animate-btn');
+const stLen       = document.getElementById('st-len');
+const stP         = document.getElementById('st-p');
+const stI         = document.getElementById('st-i');
+const stPumped    = document.getElementById('st-pumped');
+const langTypeBadge = document.getElementById('lang-type-badge');
+const proofSteps  = document.getElementById('proof-steps');
 
-// ─── LANG PILLS ──────────────────────────────────────────────────────────────
-pills.forEach(p => {
-  p.addEventListener('click', () => {
-    pills.forEach(x => x.classList.remove('active'));
-    p.classList.add('active');
-    currentLang = p.dataset.lang;
+// ─── PILLS ───────────────────────────────────────────────────────────────────
+allPills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    allPills.forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active');
+    currentLang = pill.dataset.lang;
     const lang = LANGUAGES[currentLang];
-    // Auto-fill a valid example string
-    strInput.value = lang.generatePumping(3);
+    strInput.value = lang.generateExample(3);
+    pInput.value = '';
     hideError();
     resultSec.style.display = 'none';
+    stopAnim();
   });
 });
 
-// ─── RUN ─────────────────────────────────────────────────────────────────────
+autoBtn.addEventListener('click', () => {
+  const s = strInput.value.trim().toLowerCase();
+  if (s) pInput.value = LANGUAGES[currentLang].autoPumping(s);
+});
+
+// ─── ANALYSE ─────────────────────────────────────────────────────────────────
 runBtn.addEventListener('click', analyse);
-strInput.addEventListener('keydown', e => { if (e.key === 'Enter') analyse(); });
+strInput.addEventListener('keydown', e=>{ if(e.key==='Enter') analyse(); });
 
 function analyse() {
+  stopAnim();
   const s = strInput.value.trim().toLowerCase();
   if (!s) { showError('Please enter a string.'); return; }
   if (!/^[abc]+$/.test(s)) { showError('Only letters a, b, c are allowed.'); return; }
+  if (s.length < 2) { showError('String too short. Enter at least 2 characters.'); return; }
 
   const lang = LANGUAGES[currentLang];
+  let p;
+  const pv = pInput.value.trim();
+  if (pv && parseInt(pv)>=1) { p = parseInt(pv); } else { p = lang.autoPumping(s); pInput.value = p; }
 
-  // Check minimum length
-  if (s.length < 2) { showError('String is too short. Enter at least 2 characters.'); return; }
+  currentStr=s; currentP=p; pumpI=1;
 
-  currentStr = s;
-  pumpI = 1;
+  const {xLen,yLen} = lang.decompose(s,p);
+  xStr=s.slice(0,xLen); yStr=s.slice(xLen,xLen+yLen); zStr=s.slice(xLen+yLen);
 
-  const { p, xLen, yLen } = lang.decompose(s);
-  xStr = s.slice(0, xLen);
-  yStr = s.slice(xLen, xLen + yLen);
-  zStr = s.slice(xLen + yLen);
-
-  // Guard: y must not be empty
-  if (!yStr) { showError('Cannot decompose: y segment is empty. Try a longer string.'); return; }
-
+  if (!yStr) { showError('y segment is empty. Try a longer string or adjust p.'); return; }
   hideError();
 
-  // Tape flex sizing based on lengths
-  const total = s.length || 1;
-  const xFlex = Math.max(xStr.length / total, 0.15);
-  const yFlex = Math.max(yStr.length / total, 0.25);
-  const zFlex = Math.max(zStr.length / total, 0.15);
-  segX.style.flex = xFlex;
-  segY.style.flex = yFlex;
-  segZ.style.flex = zFlex;
+  const total=s.length||1;
+  segX.style.flex=Math.max(xStr.length/total,0.15);
+  segY.style.flex=Math.max(yStr.length/total,0.25);
+  segZ.style.flex=Math.max(zStr.length/total,0.15);
 
-  valX.textContent = xStr || 'ε';
-  valY.textContent = yStr;
-  valZ.textContent = zStr || 'ε';
+  valX.textContent=xStr||'ε'; valY.textContent=yStr; valZ.textContent=zStr||'ε';
 
-  // Rule badges
-  rulesBadges.innerHTML = `
-    <span class="rule-badge rb-info">|xy| = ${xStr.length + yStr.length} ≤ p = ${p}</span>
-    <span class="rule-badge rb-ok">|y| = ${yStr.length} ≥ 1</span>
-    <span class="rule-badge rb-info">p = ${p}</span>
-  `;
+  // Tape border colour for regular vs non-regular
+  tape.className = 'tape' + (lang.isRegular ? ' tape-regular' : '');
 
-  decompExpl.innerHTML = lang.explain(xStr, yStr, zStr, p);
+  rulesBadges.innerHTML =
+    `<span class="rule-badge rb-info">|xy|=${xStr.length+yStr.length} ≤ p=${p}</span>` +
+    `<span class="rule-badge rb-ok">|y|=${yStr.length} ≥ 1</span>` +
+    `<span class="rule-badge rb-info">p=${p}</span>` +
+    (lang.isRegular ? `<span class="rule-badge rb-warn">Regular — pumping always holds</span>` : '');
 
-  stLen.textContent = s.length;
-  stP.textContent   = p;
+  langTypeBadge.innerHTML = lang.isRegular
+    ? `<span class="lang-type-badge ltb-reg">✓ Regular Language</span>`
+    : `<span class="lang-type-badge ltb-nonreg">✕ Non-Regular Language</span>`;
 
-  resultSec.style.display = 'block';
+  decompExpl.innerHTML = lang.explain(xStr,yStr,zStr,p);
+  stLen.textContent=s.length; stP.textContent=p;
+
+  resultSec.style.display='block';
   updatePump();
-
-  // Scroll to result
-  setTimeout(() => resultSec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+  renderProof();
+  setTimeout(()=>resultSec.scrollIntoView({behavior:'smooth',block:'start'}),80);
 }
 
-// ─── PUMP ────────────────────────────────────────────────────────────────────
-btnDec.addEventListener('click', () => { if (pumpI > 0) { pumpI--; updatePump(); } });
-btnInc.addEventListener('click', () => { if (pumpI < 8)  { pumpI++; updatePump(); } });
+// ─── PUMP ─────────────────────────────────────────────────────────────────────
+btnDec.addEventListener('click', ()=>{ if(pumpI>0){pumpI--;updatePump();renderProof();} });
+btnInc.addEventListener('click', ()=>{ pumpI++;updatePump();renderProof(); });
 
 function updatePump() {
-  pumpCount.textContent = pumpI;
-  stI.textContent = pumpI;
+  pumpCount.textContent=pumpI; stI.textContent=pumpI;
+  const pumped=xStr+yStr.repeat(pumpI)+zStr;
+  stPumped.textContent=pumped.length;
 
-  const pumped = xStr + yStr.repeat(pumpI) + zStr;
-  stPumped.textContent = pumped.length;
+  const yDisp=yStr.length>10?yStr.slice(0,8)+'…':yStr;
+  const yPart = pumpI===0
+    ? '<span style="color:var(--muted);">(y⁰=ε)</span>'
+    : pumpI===1
+      ? `<span class="hl-y">${yDisp}</span>`
+      : `<span class="hl-y">(${yDisp})^${pumpI}=${yStr.repeat(pumpI).slice(0,25)}${yStr.repeat(pumpI).length>25?'…':''}</span>`;
 
-  const yPart = pumpI === 0
-    ? '(y⁰=ε)'
-    : pumpI === 1
-      ? `<span class="hl-y">${yStr}</span>`
-      : `<span class="hl-y">(${yStr})^${pumpI} = ${yStr.repeat(pumpI)}</span>`;
+  const pumpedDisp=pumped.length>50?pumped.slice(0,48)+'…':pumped;
+  resultStr.innerHTML=
+    `x·y<sup>${pumpI}</sup>·z &nbsp;=&nbsp; `+
+    `<span style="color:var(--blue);font-weight:600;">${xStr||'ε'}</span>`+
+    ` · ${yPart} · `+
+    `<span style="color:var(--green);font-weight:600;">${zStr||'ε'}</span>`+
+    `<br>Result string: <strong style="font-size:15px;">${pumpedDisp}</strong>  (length ${pumped.length})`;
 
-  resultStr.innerHTML =
-    `x·y<sup>${pumpI}</sup>·z &nbsp;=&nbsp; ` +
-    `<span style="color:var(--blue);font-weight:600;">${xStr||'ε'}</span>` +
-    ` · ${yPart} · ` +
-    `<span style="color:var(--green);font-weight:600;">${zStr||'ε'}</span>` +
-    `<br>Result string: <strong style="font-size:15px;">${pumped}</strong>  (length ${pumped.length})`;
+  const lang=LANGUAGES[currentLang], inLang=lang.validate(pumped);
+  const dispPumped=pumped.length>40?pumped.slice(0,38)+'…':pumped;
 
-  const lang = LANGUAGES[currentLang];
-  const inLang = lang.validate(pumped);
-
-  if (inLang) {
-    verdictBox.className = 'verdict good';
-    verdictIcon.textContent = '✓';
-    verdictText.innerHTML = `"<strong>${pumped}</strong>" is still in ${lang.name}. Try a different value of i to find a contradiction.`;
+  if (lang.isRegular) {
+    verdictBox.className='verdict good'; verdictIcon.textContent='✓';
+    verdictText.innerHTML=inLang
+      ? `"<strong>${dispPumped}</strong>" is still in ${lang.name}. Pumping holds — this is a regular language.`
+      : `"<strong>${dispPumped}</strong>" is outside ${lang.name}. Check that your input string belongs to the language.`;
   } else {
-    verdictBox.className = 'verdict bad';
-    verdictIcon.textContent = '✕';
-    verdictText.innerHTML = `"<strong>${pumped}</strong>" is <strong>NOT</strong> in ${lang.name} → Contradiction found! This language is <strong>NOT regular</strong>.`;
+    if (inLang) {
+      verdictBox.className='verdict good'; verdictIcon.textContent='✓';
+      verdictText.innerHTML=`"<strong>${dispPumped}</strong>" is still in ${lang.name}. Try a different i to find a contradiction.`;
+    } else {
+      verdictBox.className='verdict bad'; verdictIcon.textContent='✕';
+      verdictText.innerHTML=`"<strong>${dispPumped}</strong>" is <strong>NOT</strong> in ${lang.name} → Contradiction! This language is <strong>NOT regular</strong>.`;
+    }
   }
 }
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-function showError(msg) {
-  errorMsg.textContent = msg;
-  errorMsg.style.display = 'block';
+// ─── PROOF ───────────────────────────────────────────────────────────────────
+function renderProof() {
+  const lang=LANGUAGES[currentLang];
+  const {steps,isRegular}=lang.proof(currentStr,xStr,yStr,zStr,currentP,pumpI);
+  let html='';
+  steps.forEach((step,idx)=>{
+    html+=`<div class="proof-step"><div class="proof-num">${idx+1}</div><div class="proof-body"><h4>${step.title}</h4><p>${step.body}</p></div></div>`;
+    if(idx<steps.length-1) html+=`<div class="proof-connector"></div>`;
+  });
+  if(isRegular) html+=`<div class="proof-regular-note"><strong>This language IS regular.</strong> The Pumping Lemma is satisfied — pumping never produces a contradiction. No matter what i you choose, the pumped string remains in the language.</div>`;
+  proofSteps.innerHTML=html;
 }
-function hideError() {
-  errorMsg.style.display = 'none';
+
+// ─── ANIMATE ─────────────────────────────────────────────────────────────────
+animBtn.addEventListener('click', ()=>{
+  if(animTimer){stopAnim();return;}
+  animBtn.textContent='■ Stop'; animBtn.classList.add('running');
+  pumpI=0;
+  animTimer=setInterval(()=>{
+    pumpI++;
+    updatePump(); renderProof();
+    tape.classList.remove('tape-pulse');
+    void tape.offsetWidth;
+    tape.classList.add('tape-pulse');
+    if(pumpI>=8) stopAnim();
+  },700);
+});
+
+function stopAnim() {
+  if(animTimer){clearInterval(animTimer);animTimer=null;}
+  animBtn.textContent='▶ Animate Pumping'; animBtn.classList.remove('running');
 }
+
+function showError(msg){errorMsg.textContent=msg;errorMsg.style.display='block';}
+function hideError(){errorMsg.style.display='none';}
 </script>
 </body>
 </html>
