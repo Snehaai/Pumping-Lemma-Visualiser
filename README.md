@@ -1,4 +1,4 @@
-# Pumping Lemma Demonstration Tool
+# Pumping Lemma Visualiser Web App
 ### TAFL Visualization Assignment — Topic 6
 
 By Sneha Manohar (2023UCA1930)
