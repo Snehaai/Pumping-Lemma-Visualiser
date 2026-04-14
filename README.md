@@ -2,14 +2,10 @@
 ### TAFL Visualization Assignment — Topic 6
 
 By Sneha Manohar (2023UCA1930)
+Live Link: https://snehaai.github.io/Pumping-Lemma-Visualiser/
 
 An interactive web application that visually demonstrates the **Pumping Lemma for Regular Languages** — a fundamental theorem in Theory of Automata and Formal Languages (TAFL) used to prove that certain languages are *not regular*.
 
----
-
-## Live Demo
-
-Open `index.html` directly in any browser. No server, no install, no dependencies.
 
 ---
 
@@ -51,19 +47,6 @@ The decomposition follows strict Pumping Lemma rules — it is **deterministic, 
 - **Step-by-step explanation** — each language explains *why* pumping breaks it
 - **Stats panel** — string length, pumping length p, current i, pumped string length
 
----
-
-## How to Run
-
-### Option 1 — Open directly
-```
-Double-click index.html → opens in your browser
-```
-
-### Option 2 — GitHub Pages (recommended for submission)
-```
-Your app is live at `https://snehaai.github.io/Pumping-Lemma-Visualiser/`
-```
 
 ---
 
