@@ -66,7 +66,6 @@ Double-click index.html → opens in your browser
 3. Set source to `main` branch, `/ (root)`
 4. Your app is live at `https://<your-username>.github.io/<repo-name>/`
 
-```
 
 ---
 
