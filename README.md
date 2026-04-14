@@ -2,6 +2,7 @@
 ### TAFL Visualization Assignment — Topic 6
 
 By Sneha Manohar (2023UCA1930)
+
 Live Link: https://snehaai.github.io/Pumping-Lemma-Visualiser/
 
 An interactive web application that visually demonstrates the **Pumping Lemma for Regular Languages** — a fundamental theorem in Theory of Automata and Formal Languages (TAFL) used to prove that certain languages are *not regular*.
