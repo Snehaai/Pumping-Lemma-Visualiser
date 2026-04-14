@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pumping Lemma Visualizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --terra:    #D85A30;
+    --terra-dk: #993C1D;
+    --terra-lt: #FAECE7;
+    --terra-md: #F0997B;
+    --cream:    #FDF6EE;
+    --sand:     #F5EDE0;
+    --charcoal: #1E1A17;
+    --ink:      #3D2F25;
+    --muted:    #8A7060;
+    --green:    #2D7A4F;
+    --green-lt: #E8F5EE;
+    --red:      #C0392B;
+    --red-lt:   #FDEEEC;
+    --blue:     #1A5C99;
+    --blue-lt:  #EAF2FB;
+    --amber:    #B07D1A;
+    --amber-lt: #FEF7E6;
+    --border:   rgba(61,47,37,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+  /* ─── HEADER ─── */
+  header {
+    background: var(--terra);
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+  .header-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #FAECE7;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  header p {
+    font-size: 13px;
+    color: #F5C4B3;
+    font-weight: 400;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  /* ─── MAIN ─── */
+  main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+  /* ─── CARDS ─── */
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .card-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--terra-lt);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--terra);
+    font-size: 15px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+  /* ─── SECTION LABEL ─── */
+  .sec-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  /* ─── LANGUAGE PILLS ─── */
+  .pill-grid { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .pill.active {
+    background: var(--terra);
+    color: #fff;
+    border-color: var(--terra);
+  }
+  .pill:not(.active) {
+    background: var(--terra-lt);
+    color: var(--terra-dk);
+    border-color: #F0997B;
+  }
+  .pill:not(.active):hover { background: #F5C4B3; }
+  /* ─── INPUT ROW ─── */
+  .input-row { display: flex; gap: 8px; margin-top: 1rem; }
+  .str-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--sand);
+    font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .str-input:focus { border-color: var(--terra); }
+  .run-btn {
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: var(--terra);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .run-btn:hover { background: var(--terra-dk); }
+  .run-btn:active { transform: scale(0.97); }
+  /* ─── ERROR MSG ─── */
+  #error-msg {
+    display: none;
+    background: var(--red-lt);
+    color: var(--red);
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  /* ─── RESULT SECTION ─── */
+  #result-section { display: none; }
+  /* ─── SPLIT TAPE ─── */
+  .tape-wrap { margin: 0.75rem 0 1.25rem; }
+  .tape {
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--terra);
+  }
+  .tape-seg {
+    padding: 14px 8px;
+    text-align: center;
+    transition: flex 0.4s cubic-bezier(.4,0,.2,1), background 0.3s;
+    min-width: 50px;
+  }
+  .tape-x { background: var(--blue-lt); border-right: 1px solid rgba(26,92,153,0.2); }
+  .tape-y { background: var(--terra); position: relative; }
+  .tape-z { background: var(--green-lt); border-left: 1px solid rgba(45,122,79,0.2); }
+  .tape-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .tape-x .tape-lbl { color: var(--blue); }
+  .tape-y .tape-lbl { color: rgba(255,255,255,0.7); }
+  .tape-z .tape-lbl { color: var(--green); }
+  .tape-val {
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tape-x .tape-val { color: var(--blue); }
+  .tape-y .tape-val { color: #fff; }
+  .tape-z .tape-val { color: var(--green); }
+  .tape-arrow {
+    position: absolute;
+    bottom: -12px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid var(--terra);
+  }
+  /* ─── RULE BADGES ─── */
+  .rules { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .rule-badge {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  .rb-ok  { background: var(--green-lt); color: var(--green); }
+  .rb-info{ background: var(--blue-lt);  color: var(--blue); }
+  /* ─── PUMP CONTROL ─── */
+  .pump-ctrl {
+    display: flex; align-items: center; gap: 14px;
+    margin: 0.5rem 0 1rem;
+  }
+  .pump-lbl { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .pump-btns { display: flex; align-items: center; gap: 8px; }
+  .pbtn {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--terra-lt);
+    border: 1.5px solid #F0997B;
+    color: var(--terra-dk);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    transition: background 0.15s;
+    line-height: 1;
+  }
+  .pbtn:hover { background: #F5C4B3; }
+  .pval {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--terra);
+    min-width: 32px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  /* ─── RESULT STRING ─── */
+  .result-str {
+    background: var(--sand);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.6;
+    word-break: break-all;
+  }
+  .hl-y { color: var(--terra); font-weight: 700; }
+  /* ─── VERDICT ─── */
+  .verdict {
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-left: 3px solid;
+  }
+  .verdict.bad  { background: var(--red-lt);   color: #4A1313; border-color: var(--red); }
+  .verdict.good { background: var(--green-lt); color: #1A3D28; border-color: var(--green); }
+  .verdict-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  /* ─── STATS ─── */
+  .stats { display: flex; gap: 8px; margin-top: 1rem; }
+  .stat {
+    flex: 1;
+    background: var(--sand);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .stat-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--terra);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-lbl { font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 3px; letter-spacing: 0.05em; text-transform: uppercase; }
+  /* ─── EXPLANATION BOX ─── */
+  .explain-box {
+    background: var(--amber-lt);
+    border-radius: 10px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--amber);
+    margin-top: 0.75rem;
+  }
+  .explain-box p { font-size: 12px; color: var(--ink); line-height: 1.65; }
+  .explain-box strong { color: var(--terra-dk); }
+  /* ─── HOW IT WORKS ─── */
+  .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 0.5rem; }
+  .how-item { background: var(--sand); border-radius: 10px; padding: 12px; }
+  .how-num { font-size: 22px; font-weight: 700; color: var(--terra-md); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+  .how-text { font-size: 12px; color: var(--ink); line-height: 1.6; }
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .anim-in { animation: fadeSlideIn 0.35s ease forwards; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-tag">TAFL Visualization — Topic 6</div>
+    <h1>Pumping Lemma<br>Demonstration Tool</h1>
+    <p>Interactively prove that a language is <em>not regular</em> by decomposing strings and pumping the middle segment.</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- STEP 1: CHOOSE + INPUT -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">01</div>
+      <div class="card-title">Choose a Language &amp; Enter a String</div>
+    </div>
+
+    <div class="sec-lbl">Language</div>
+    <div class="pill-grid" id="lang-pills">
+      <div class="pill active" data-lang="anbn">aⁿbⁿ</div>
+      <div class="pill" data-lang="anbncn">aⁿbⁿcⁿ</div>
+      <div class="pill" data-lang="wwr">wwᴿ (palindrome)</div>
+      <div class="pill" data-lang="prime">aᵖ (prime length)</div>
+    </div>
+
+    <div class="input-row">
+      <input class="str-input" id="str-input" type="text" placeholder="e.g. aabb" value="aabb" maxlength="30" />
+      <button class="run-btn" id="run-btn">Analyse →</button>
+    </div>
+    <div id="error-msg"></div>
+  </div>
+
+  <!-- RESULT SECTION -->
+  <div id="result-section">
+
+    <!-- STEP 2: DECOMPOSITION -->
+    <div class="card anim-in" id="card-decomp">
+      <div class="card-header">
+        <div class="card-icon">02</div>
+        <div class="card-title">String Decomposition — x · y · z</div>
+      </div>
+      <div class="rules" id="rules-badges"></div>
+      <div class="tape-wrap">
+        <div class="tape" id="tape">
+          <div class="tape-seg tape-x" id="seg-x">
+            <div class="tape-lbl">x</div>
+            <div class="tape-val" id="val-x">—</div>
+          </div>
+          <div class="tape-seg tape-y" id="seg-y">
+            <div class="tape-arrow"></div>
+            <div class="tape-lbl">y · pump</div>
+            <div class="tape-val" id="val-y">—</div>
+          </div>
+          <div class="tape-seg tape-z" id="seg-z">
+            <div class="tape-lbl">z</div>
+            <div class="tape-val" id="val-z">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="explain-box">
+        <p id="decomp-explain"></p>
+      </div>
+    </div>
+
+    <!-- STEP 3: PUMP -->
+    <div class="card anim-in" id="card-pump">
+      <div class="card-header">
+        <div class="card-icon">03</div>
+        <div class="card-title">Pump the y Segment</div>
+      </div>
+      <div class="pump-ctrl">
+        <span class="pump-lbl">Pump count  i =</span>
+        <div class="pump-btns">
+          <button class="pbtn" id="btn-dec">−</button>
+          <div class="pval" id="pump-count">1</div>
+          <button class="pbtn" id="btn-inc">+</button>
+        </div>
+      </div>
+      <div class="result-str" id="result-str"></div>
+      <div class="verdict" id="verdict-box">
+        <span class="verdict-icon" id="verdict-icon"></span>
+        <span id="verdict-text"></span>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-val" id="st-len">0</div><div class="stat-lbl">String Length</div></div>
+        <div class="stat"><div class="stat-val" id="st-p">0</div><div class="stat-lbl">Pump Length p</div></div>
+        <div class="stat"><div class="stat-val" id="st-i">0</div><div class="stat-lbl">Current i</div></div>
+        <div class="stat"><div class="stat-val" id="st-pumped">0</div><div class="stat-lbl">Pumped Length</div></div>
+      </div>
+    </div>
+
+  </div><!-- /result-section -->
+
+  <!-- HOW IT WORKS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">?</div>
+      <div class="card-title">How the Pumping Lemma Works</div>
+    </div>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <div class="how-text">Every regular language has a <strong>pumping length p</strong>. Any string longer than p can be split into x·y·z.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <div class="how-text"><strong>y is non-empty</strong> and the combined length |xy| ≤ p. y comes from the earliest repeating section.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <div class="how-text">For a regular language, <strong>xyⁱz must stay in the language</strong> for every i ≥ 0.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">04</div>
+        <div class="how-text">If pumping breaks the language for <strong>any i</strong>, the language is <strong>NOT regular</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+<footer>Pumping Lemma Visualizer · TAFL Assignment · Topic 6</footer>
+
+<script>
+// ─── LANGUAGE DEFINITIONS ───────────────────────────────────────────────────
+const LANGUAGES = {
+  anbn: {
+    name: "aⁿbⁿ",
+    desc: "Strings with equal number of a's followed by b's",
+    validate(s) {
+      const m = s.match(/^(a*)(b*)$/);
+      if (!m) return false;
+      return m[1].length === m[2].length && m[1].length > 0;
+    },
+    generatePumping(p) {
+      return 'a'.repeat(p) + 'b'.repeat(p);
+    },
+    decompose(s) {
+      // Find first 'b' position — y always comes from a-block
+      const aCount = s.match(/^a*/)[0].length;
+      const p = aCount;
+      // y is a single 'a' from the a-block, x is remaining a's before it
+      const xLen = Math.max(0, p - 1);
+      const yLen = 1;
+      return { p, xLen, yLen };
+    },
+    explain(x, y, z, p) {
+      return `Pumping length <strong>p = ${p}</strong>. The y segment "<strong>${y}</strong>" is taken from the a-block because |xy| = ${x.length + y.length} ≤ p. Pumping y changes the a-count without changing b-count, breaking the aⁿbⁿ rule.`;
+    }
+  },
+  anbncn: {
+    name: "aⁿbⁿcⁿ",
+    desc: "Strings with equal a's, b's and c's",
+    validate(s) {
+      const m = s.match(/^(a*)(b*)(c*)$/);
+      if (!m) return false;
+      const [,a,b,c] = m;
+      return a.length === b.length && b.length === c.length && a.length > 0;
+    },
+    generatePumping(p) {
+      return 'a'.repeat(p) + 'b'.repeat(p) + 'c'.repeat(p);
+    },
+    decompose(s) {
+      const aCount = s.match(/^a*/)[0].length;
+      const p = aCount;
+      const xLen = Math.max(0, p - 1);
+      const yLen = 1;
+      return { p, xLen, yLen };
+    },
+    explain(x, y, z, p) {
+      return `Pumping length <strong>p = ${p}</strong>. y = "<strong>${y}</strong>" is from the a-block. Pumping changes only the a-count while b and c counts stay fixed, violating aⁿbⁿcⁿ.`;
+    }
+  },
+  wwr: {
+    name: "wwᴿ",
+    desc: "Palindromes — strings equal to their reverse",
+    validate(s) {
+      return s.length > 0 && s === s.split('').reverse().join('') && /^[ab]+$/.test(s);
+    },
+    generatePumping(p) {
+      const half = 'a'.repeat(p);
+      return half + half.split('').reverse().join('');
+    },
+    decompose(s) {
+      const p = Math.ceil(s.length / 4);
+      const xLen = 0;
+      const yLen = Math.min(2, p);
+      return { p: p * 2, xLen, yLen };
+    },
+    explain(x, y, z, p) {
+      return `Pumping length <strong>p = ${p}</strong>. y = "<strong>${y}</strong>" is from the start of the string. Pumping y makes the left side longer than the right side, so the string can no longer be a palindrome.`;
+    }
+  },
+  prime: {
+    name: "aᵖ",
+    desc: "Strings of a's whose length is a prime number",
+    validate(s) {
+      const n = s.length;
+      if (!/^a+$/.test(s) || n < 2) return false;
+      for (let i = 2; i <= Math.sqrt(n); i++) if (n % i === 0) return false;
+      return true;
+    },
+    generatePumping(p) {
+      return 'a'.repeat(p);
+    },
+    decompose(s) {
+      const p = 2;
+      const xLen = 0;
+      const yLen = 2;
+      return { p, xLen, yLen };
+    },
+    explain(x, y, z, p) {
+      return `Pumping length <strong>p = ${p}</strong>. y = "<strong>${y}</strong>". If original length is prime q, pumped length is q + (i−1)·|y|. This will be composite for most values of i, proving not all pumped strings have prime length.`;
+    }
+  }
+};
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentLang = 'anbn';
+let currentStr  = '';
+let xStr = '', yStr = '', zStr = '';
+let pumpI = 1;
+
+// ─── ELEMENTS ────────────────────────────────────────────────────────────────
+const pills      = document.querySelectorAll('.pill');
+const strInput   = document.getElementById('str-input');
+const runBtn     = document.getElementById('run-btn');
+const errorMsg   = document.getElementById('error-msg');
+const resultSec  = document.getElementById('result-section');
+const valX       = document.getElementById('val-x');
+const valY       = document.getElementById('val-y');
+const valZ       = document.getElementById('val-z');
+const segX       = document.getElementById('seg-x');
+const segY       = document.getElementById('seg-y');
+const segZ       = document.getElementById('seg-z');
+const rulesBadges= document.getElementById('rules-badges');
+const decompExpl = document.getElementById('decomp-explain');
+const pumpCount  = document.getElementById('pump-count');
+const resultStr  = document.getElementById('result-str');
+const verdictBox = document.getElementById('verdict-box');
+const verdictIcon= document.getElementById('verdict-icon');
+const verdictText= document.getElementById('verdict-text');
+const btnDec     = document.getElementById('btn-dec');
+const btnInc     = document.getElementById('btn-inc');
+const stLen      = document.getElementById('st-len');
+const stP        = document.getElementById('st-p');
+const stI        = document.getElementById('st-i');
+const stPumped   = document.getElementById('st-pumped');
+
+// ─── LANG PILLS ──────────────────────────────────────────────────────────────
+pills.forEach(p => {
+  p.addEventListener('click', () => {
+    pills.forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    currentLang = p.dataset.lang;
+    const lang = LANGUAGES[currentLang];
+    // Auto-fill a valid example string
+    strInput.value = lang.generatePumping(3);
+    hideError();
+    resultSec.style.display = 'none';
+  });
+});
+
+// ─── RUN ─────────────────────────────────────────────────────────────────────
+runBtn.addEventListener('click', analyse);
+strInput.addEventListener('keydown', e => { if (e.key === 'Enter') analyse(); });
+
+function analyse() {
+  const s = strInput.value.trim().toLowerCase();
+  if (!s) { showError('Please enter a string.'); return; }
+  if (!/^[abc]+$/.test(s)) { showError('Only letters a, b, c are allowed.'); return; }
+
+  const lang = LANGUAGES[currentLang];
+
+  // Check minimum length
+  if (s.length < 2) { showError('String is too short. Enter at least 2 characters.'); return; }
+
+  currentStr = s;
+  pumpI = 1;
+
+  const { p, xLen, yLen } = lang.decompose(s);
+  xStr = s.slice(0, xLen);
+  yStr = s.slice(xLen, xLen + yLen);
+  zStr = s.slice(xLen + yLen);
+
+  // Guard: y must not be empty
+  if (!yStr) { showError('Cannot decompose: y segment is empty. Try a longer string.'); return; }
+
+  hideError();
+
+  // Tape flex sizing based on lengths
+  const total = s.length || 1;
+  const xFlex = Math.max(xStr.length / total, 0.15);
+  const yFlex = Math.max(yStr.length / total, 0.25);
+  const zFlex = Math.max(zStr.length / total, 0.15);
+  segX.style.flex = xFlex;
+  segY.style.flex = yFlex;
+  segZ.style.flex = zFlex;
+
+  valX.textContent = xStr || 'ε';
+  valY.textContent = yStr;
+  valZ.textContent = zStr || 'ε';
+
+  // Rule badges
+  rulesBadges.innerHTML = `
+    <span class="rule-badge rb-info">|xy| = ${xStr.length + yStr.length} ≤ p = ${p}</span>
+    <span class="rule-badge rb-ok">|y| = ${yStr.length} ≥ 1</span>
+    <span class="rule-badge rb-info">p = ${p}</span>
+  `;
+
+  decompExpl.innerHTML = lang.explain(xStr, yStr, zStr, p);
+
+  stLen.textContent = s.length;
+  stP.textContent   = p;
+
+  resultSec.style.display = 'block';
+  updatePump();
+
+  // Scroll to result
+  setTimeout(() => resultSec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+
+// ─── PUMP ────────────────────────────────────────────────────────────────────
+btnDec.addEventListener('click', () => { if (pumpI > 0) { pumpI--; updatePump(); } });
+btnInc.addEventListener('click', () => { if (pumpI < 8)  { pumpI++; updatePump(); } });
+
+function updatePump() {
+  pumpCount.textContent = pumpI;
+  stI.textContent = pumpI;
+
+  const pumped = xStr + yStr.repeat(pumpI) + zStr;
+  stPumped.textContent = pumped.length;
+
+  const yPart = pumpI === 0
+    ? '(y⁰=ε)'
+    : pumpI === 1
+      ? `<span class="hl-y">${yStr}</span>`
+      : `<span class="hl-y">(${yStr})^${pumpI} = ${yStr.repeat(pumpI)}</span>`;
+
+  resultStr.innerHTML =
+    `x·y<sup>${pumpI}</sup>·z &nbsp;=&nbsp; ` +
+    `<span style="color:var(--blue);font-weight:600;">${xStr||'ε'}</span>` +
+    ` · ${yPart} · ` +
+    `<span style="color:var(--green);font-weight:600;">${zStr||'ε'}</span>` +
+    `<br>Result string: <strong style="font-size:15px;">${pumped}</strong>  (length ${pumped.length})`;
+
+  const lang = LANGUAGES[currentLang];
+  const inLang = lang.validate(pumped);
+
+  if (inLang) {
+    verdictBox.className = 'verdict good';
+    verdictIcon.textContent = '✓';
+    verdictText.innerHTML = `"<strong>${pumped}</strong>" is still in ${lang.name}. Try a different value of i to find a contradiction.`;
+  } else {
+    verdictBox.className = 'verdict bad';
+    verdictIcon.textContent = '✕';
+    verdictText.innerHTML = `"<strong>${pumped}</strong>" is <strong>NOT</strong> in ${lang.name} → Contradiction found! This language is <strong>NOT regular</strong>.`;
+  }
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.style.display = 'block';
+}
+function hideError() {
+  errorMsg.style.display = 'none';
+}
+</script>
+</body>
+</html>
