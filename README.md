@@ -61,11 +61,9 @@ Double-click index.html → opens in your browser
 ```
 
 ### Option 2 — GitHub Pages (recommended for submission)
-1. Push this repo to GitHub
-2. Go to **Settings → Pages**
-3. Set source to `main` branch, `/ (root)`
-4. Your app is live at `https://<your-username>.github.io/<repo-name>/`
-
+```
+Your app is live at `https://snehaai.github.io/Pumping-Lemma-Visualiser/`
+```
 
 ---
 
